@@ -1,7 +1,7 @@
 import BookCard from "./BookCard";
 export default function BookList({books, onToggle}) {
  if (books.length === 0) {
- return <p>Nenhum livro cadastrado.</p>;
+ return <p>Nenhum livro no acervo.</p>;
  }
  return (
  <section className="book-list" aria-label="Livros">
