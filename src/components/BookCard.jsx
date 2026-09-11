@@ -3,7 +3,8 @@ export default function BookCard({
  title,
  author,
 year,
-available
+available,
+onShowDetails,
 }) {
  return (
  <article className="book-card">
@@ -14,7 +15,10 @@ available
           </div>
  <span className={`badge ${available ? "badge-ok" : "badge-off"}`}>
   {available ? "Disponível" : "Reservado"}
-</span>
+  </span>
+  <button type="button" onClick={() => onShowDetails(id)}>
+    ver detalhes
+ </button>
  </article>
 
  );

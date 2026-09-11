@@ -1,5 +1,5 @@
 import BookCard from "./BookCard";
-export default function BookList({books}) {
+export default function BookList({books, onShowDetails}) {
  if (books.length === 0) {
  return <p>Nenhum hábito cadastrado.</p>;
  }
@@ -9,6 +9,7 @@ export default function BookList({books}) {
  <BookCard
  key={book.id}
  {...book}
+ onShowDetails={onShowDetails}
  />
  ))}
  </section>
