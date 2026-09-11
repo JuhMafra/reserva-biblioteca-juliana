@@ -1,7 +1,7 @@
 import BookCard from "./BookCard";
-export default function BookList({books, onShowDetails}) {
+export default function BookList({books, onToggle}) {
  if (books.length === 0) {
- return <p>Nenhum hábito cadastrado.</p>;
+ return <p>Nenhum livro cadastrado.</p>;
  }
  return (
  <section className="book-list" aria-label="Livros">
@@ -9,7 +9,7 @@ export default function BookList({books, onShowDetails}) {
  <BookCard
  key={book.id}
  {...book}
- onShowDetails={onShowDetails}
+ onToggle={onToggle}
  />
  ))}
  </section>

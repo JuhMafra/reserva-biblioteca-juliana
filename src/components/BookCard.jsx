@@ -4,7 +4,7 @@ export default function BookCard({
  author,
 year,
 available,
-onShowDetails,
+onToggle,
 }) {
  return (
  <article className="book-card">
@@ -13,11 +13,11 @@ onShowDetails,
             <p>{author}</p>
             <p>{year}</p>
           </div>
- <span className={`badge ${available ? "badge-ok" : "badge-off"}`}>
+           <span className={`badge ${available ? "badge-ok" : "badge-off"}`}>
   {available ? "Disponível" : "Reservado"}
   </span>
-  <button type="button" onClick={() => onShowDetails(id)}>
-    ver detalhes
+  <button type="button" onClick={() => onToggle(id)}>
+ {available ? "Reservar" : "Devolver"}
  </button>
  </article>
 
