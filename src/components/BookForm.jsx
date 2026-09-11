@@ -45,6 +45,7 @@ export default function BookForm({ onAddBook }) {
           onChange={handleChange}
           placeholder="Ex.: Dom Casmurro"
         />
+        <label htmlFor="contador">{form.title.length} caracteres</label>
       </div>
       <div className="field">
         <label htmlFor="author">Autor</label>
