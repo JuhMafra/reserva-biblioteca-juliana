@@ -16,6 +16,9 @@ body {
   color: #1a2233;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
+p,h1,h2{
+  color: black;
+}
 
 .app {
   max-width: 720px;
@@ -33,7 +36,6 @@ body {
 
 .hero p {
   margin: 0;
-  color: #55617a;
 }
 
 .eyebrow {
