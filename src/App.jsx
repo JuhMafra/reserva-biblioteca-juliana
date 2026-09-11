@@ -7,6 +7,7 @@ import BookForm from "./components/BookForm";
 
 export default function App() {
   const [livro, setLivro] = useState(books);
+  const [pesquisa, setPesquisa] = useState("");
 
   const completedCount = livro.filter(
     (book) => book.available,
@@ -24,6 +25,15 @@ export default function App() {
   function handleAddBook(newBook) {
     setLivro((prevLivros) => [...prevLivros, newBook]);
   }
+
+  const filteredBooks = livro.filter((book) => {
+    const query = pesquisa.toLowerCase().trim();
+    return (
+      book.title.toLowerCase().includes(query) ||
+      book.author.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <main className="app">
       <header className="hero">
@@ -38,7 +48,16 @@ export default function App() {
         <BookForm onAddBook={handleAddBook} />
       </Panel>
       <Panel title="Livros">
-        <BookList books={livro} onToggle={handleReserve} />
+        <div className="search-box">
+          <input
+            type="text"
+            placeholder="Pesquisar por título ou autor..."
+            value={pesquisa}
+            onChange={(pesquisar) => setPesquisa(pesquisar.target.value)}
+          />
+        </div>
+        <br/>
+        <BookList books={filteredBooks} onToggle={handleReserve} />
       </Panel>
     </main>
   );
