@@ -1,67 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./App.css";
-import { books } from "./data/books";
 import Panel from "./components/panel";
 import BookList from "./components/BookList";
 import BookForm from "./components/BookForm";
-
-const STORAGE_KEY = "reserva-biblioteca:books";
-
-function loadBooks() {
-  const savedBooks = localStorage.getItem(STORAGE_KEY);
-  if (!savedBooks) return books;
-  try {
-    const parsedBooks = JSON.parse(savedBooks);
-    return Array.isArray(parsedBooks) ? parsedBooks : books;
-  } catch {
-    return books;
-  }
-}
+import { BooksContext } from "./context/BooksContext";
 
 export default function App() {
-  const [livro, setLivro] = useState(loadBooks);
-  const [pesquisa, setPesquisa] = useState("");
+  const booksContext = useContext(BooksContext);
 
-  const completedCount = livro.filter(
-    (book) => book.available,
-  ).length;
-  
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(livro));
-  }, [livro]);
+if (!booksContext) {
+ throw new Error("BookForm precisa estar dentro de BooksProvider.");
+ }
+ const { livro, completedCount, pesquisa, setPesquisa } = booksContext;
 
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = `${completedCount}/${livro.length} livros reservados`;
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [completedCount, livro.length]);
-
-
-
-  function handleAddBook(newBook) {
-    setLivro((prevLivros) => [...prevLivros, newBook]);
-  }
-
-  function handleReserve(bookId) {
-    setLivro((currentBook) =>
-      currentBook.map((book) =>
-        book.id === bookId
-          ? { ...book, available: !book.available }
-          : book,
-      ),
-    );
-  }
-
-
-  const filteredBooks = livro.filter((book) => {
-    const query = pesquisa.toLowerCase().trim();
-    return (
-      book.title.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query)
-    );
-  });
 
   return (
     <main className="app">
@@ -74,19 +25,17 @@ export default function App() {
         </p>
       </header>
       <Panel title="Novo livro">
-        <BookForm onAddBook={handleAddBook} />
+        <BookForm />
       </Panel>
       <Panel title="Livros">
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="Pesquisar por título ou autor..."
-            value={pesquisa}
-            onChange={(pesquisar) => setPesquisa(pesquisar.target.value)}
-          />
-        </div>
-        <br />
-        <BookList books={filteredBooks} onToggle={handleReserve} />
+        <input
+          type="search"
+          placeholder="Buscar por título ou autor..."
+          value={pesquisa}
+          onChange={(e) => setPesquisa(e.target.value)}
+          className="search-input"
+        />
+         <BookList />
       </Panel>
     </main>
   );

@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useContext, useState }  from "react";
+import { BooksContext } from "../context/BooksContext";
 
-export default function BookForm({ onAddBook }) {
+export default function BookForm() {
+  const booksContext = useContext(BooksContext);
   const [form, setForm] = useState({ title: "", author: "" });
   const [error, setError] = useState("");
+if (!booksContext) {
+ throw new Error("BookForm precisa estar dentro de BooksProvider.");
+ }
+ const { addBook } = booksContext;
+
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -22,7 +29,7 @@ export default function BookForm({ onAddBook }) {
       return;
     }
 
-    onAddBook({
+    addBook({
       id: crypto.randomUUID(),
       title,
       author,
